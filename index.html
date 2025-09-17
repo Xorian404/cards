@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Cards Against Humanity - Lobby</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <!-- HOME -->
+      <section id="view-home" class="view">
+        <h1>Cards Against Humanity</h1>
+        <p class="subtitle">Speel met vrienden — host of join een lobby.</p>
+        <div class="actions">
+          <button id="btn-host" class="btn primary">Host</button>
+          <button id="btn-join" class="btn">Join</button>
+        </div>
+      </section>
+
+      <!-- HOST SETUP -->
+      <section id="view-host-setup" class="view hidden">
+        <h2>Host een spel</h2>
+        <form id="form-host" class="form">
+          <label class="field">
+            <span>Jouw naam</span>
+            <input id="host-name" name="hostName" type="text" autocomplete="name" placeholder="Bijv. Alex" maxlength="20" required />
+          </label>
+          <div class="form-actions">
+            <button type="button" class="btn" data-back>Terug</button>
+            <button type="submit" class="btn primary">Maak lobby</button>
+          </div>
+          <p class="form-hint">Er wordt een 6-cijferige code gegenereerd die je kunt delen.</p>
+          <p class="form-error" id="host-error" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <!-- JOIN -->
+      <section id="view-join" class="view hidden">
+        <h2>Join een spel</h2>
+        <form id="form-join" class="form">
+          <label class="field">
+            <span>Jouw naam</span>
+            <input id="join-name" name="joinName" type="text" autocomplete="name" placeholder="Bijv. Sam" maxlength="20" required />
+          </label>
+          <label class="field">
+            <span>Spelcode (6 cijfers)</span>
+            <input id="join-code" name="joinCode" inputmode="numeric" pattern="\\d{6}" placeholder="123456" maxlength="6" minlength="6" required />
+          </label>
+          <div class="form-actions">
+            <button type="button" class="btn" data-back>Terug</button>
+            <button type="submit" class="btn primary">Join</button>
+          </div>
+          <p class="form-error" id="join-error" aria-live="polite"></p>
+        </form>
+      </section>
+
+      <!-- LOBBY -->
+      <section id="view-lobby" class="view hidden">
+        <header class="lobby-header">
+          <div class="lobby-code">
+            <span class="label">Spelcode</span>
+            <span id="code-badge" class="badge">------</span>
+            <button id="btn-copy-code" class="btn small">Kopieer code</button>
+          </div>
+          <div class="lobby-actions">
+            <button id="btn-leave" class="btn danger">Verlaat lobby</button>
+          </div>
+        </header>
+
+        <div class="lobby-body">
+          <div class="players">
+            <h3>Spelers</h3>
+            <ul id="players-list" class="player-list">
+              <!-- Dynamisch gevuld -->
+            </ul>
+          </div>
+          <div class="game-start">
+            <button id="btn-start" class="btn primary" disabled title="Komt binnenkort">Start spel (binnenkort)</button>
+            <p class="muted">Nodig je vrienden uit met de code hierboven. Deze demo synchroniseert tussen tabbladen in dezelfde browser.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
