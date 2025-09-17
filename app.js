@@ -1,4 +1,4 @@
-// Simple client-only lobby system using localStorage to sync between tabs
+// (ongewijzigd) Simple client-only lobby system using localStorage to sync between tabs
 (function(){
   const VIEWS = {
     HOME: 'view-home',
@@ -75,12 +75,10 @@
   function validateName(name){ return !!name && name.length >= 2 && name.length <= 20; }
   function isSixDigit(code){ return /^\d{6}$/.test(code); }
   function genCode(){
-    // 6-digit string with leading zeros allowed, ensure not colliding with existing (try 100 times)
     for(let i=0;i<100;i++){
       const code = String(Math.floor(Math.random()*1_000_000)).padStart(6,'0');
       if(!GameStore.exists(code)) return code;
     }
-    // Fallback (very unlikely)
     return String(Math.floor(Math.random()*1_000_000)).padStart(6,'0');
   }
   function copyText(text){
@@ -128,16 +126,13 @@
     if(!lobbyCode || !playerId) { resetToHome(); return; }
     const game = GameStore.get(lobbyCode);
     if(game){
-      // remove player
       const idx = game.players.findIndex(p=>p.id===playerId);
       if(idx>=0) game.players.splice(idx,1);
       if(game.hostId === playerId){
-        // reassign host
         if(game.players.length>0){
           game.hostId = game.players[0].id;
           game.players[0].isHost = true;
         } else {
-          // delete empty game
           GameStore.remove(lobbyCode);
         }
       }
@@ -155,7 +150,6 @@
     list.innerHTML = '';
     const game = lobbyCode ? GameStore.get(lobbyCode) : null;
     if(!game){
-      // Game no longer exists
       list.innerHTML = `<li class="player"><span class="name">Lobby is gesloten</span><span class="role">—</span></li>`;
       return;
     }
@@ -184,7 +178,6 @@
       }
     };
     window.addEventListener('storage', handler);
-    // Also refresh every 5s as a safety net
     const interval = setInterval(cb, 5000);
     return ()=>{ window.removeEventListener('storage', handler); clearInterval(interval); };
   }
@@ -254,7 +247,6 @@
       els.errors.join.textContent = 'Deze lobby bestaat niet (meer).';
       return;
     }
-    // Avoid duplicate names (case-insensitive)
     const existsName = game.players.some(p=>p.name.toLowerCase() === name.toLowerCase());
     if(existsName){
       els.errors.join.textContent = 'Deze naam is al in gebruik in de lobby.';
@@ -281,7 +273,6 @@
     leaveLobby();
   });
 
-  // Startup
   function resetToHome(){
     if(lobbyUnsubscribe){ lobbyUnsubscribe(); lobbyUnsubscribe = null; }
     lobbyCode = null; playerId = null;
@@ -301,6 +292,5 @@
     enterLobby(lobbyCode, playerId);
   }
 
-  // If a game becomes empty (from another tab), this tab will see it disappear on next render via renderPlayers()
   initFromSession();
 })();
