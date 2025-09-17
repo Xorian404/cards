@@ -45,7 +45,8 @@
           </label>
           <label class="field">
             <span>Spelcode (6 cijfers)</span>
-            <input id="join-code" name="joinCode" inputmode="numeric" pattern="\\d{6}" placeholder="123456" maxlength="6" minlength="6" required />
+            <!-- Fixed pattern: use [0-9]{6} to avoid backslash escaping issues in HTML -->
+            <input id="join-code" name="joinCode" inputmode="numeric" pattern="[0-9]{6}" placeholder="123456" maxlength="6" minlength="6" required />
           </label>
           <div class="form-actions">
             <button type="button" class="btn" data-back>Terug</button>
